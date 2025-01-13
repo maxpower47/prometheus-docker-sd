@@ -72,11 +72,11 @@ function convertDockerJson2Prometheus(data){
           logger.info('Set compose service name to "' + container.labels["com_docker_compose_service"] + '".');
         }
 
-        for (label of data.Config.Labels) {
+        for ([label, value] of Object.entries(data.Config.Labels)) {
           if (label.startsWith("prometheus-scrape.label.")) {
             newLabel = label.replace("prometheus-scrape.label.", "")
-            container.labels[newLabel] = data.Config.Labels[label];
-            logger.info('Set compose service label ' + newLabel + ' to "' + container.labels[label] + '".');
+            container.labels[newLabel] = value;
+            logger.info('Set compose service label ' + newLabel + ' to "' + value + '".');
           }
         }
 
